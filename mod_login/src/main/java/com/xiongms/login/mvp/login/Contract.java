@@ -1,4 +1,4 @@
-package com.hhg365.login.mvp.login;
+package com.xiongms.login.mvp.login;
 
 import com.xiongms.libcore.mvp.IPresenter;
 import com.xiongms.libcore.mvp.IView;

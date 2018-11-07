@@ -1,9 +1,8 @@
-package com.hhg365.login.mvp.login;
+package com.xiongms.login.mvp.login;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonObject;
-import com.hhg365.login.bean.req.ReqUserBean;
-import com.hhg365.login.data.UserServiceApi;
+import com.xiongms.login.data.UserServiceApi;
 import com.xiongms.libcore.bean.BaseBean;
 import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
@@ -11,25 +10,19 @@ import com.xiongms.libcore.config.RouterConfig;
 import com.xiongms.libcore.di.qualifiers.RQBRetrofit;
 import com.xiongms.libcore.env.Environment;
 import com.xiongms.libcore.mvp.BasePresenter;
-import com.xiongms.libcore.network.exception.ApiException;
 import com.xiongms.libcore.network.rx.RxResultHelper;
 import com.xiongms.libcore.network.rx.RxResultSubscriber;
-import com.xiongms.libcore.network.rx.RxUtils;
 import com.xiongms.libcore.utils.StrUtil;
 import com.xiongms.libcore.utils.ToastUtil;
-import com.xiongms.libcore.utils.TokenBus;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;

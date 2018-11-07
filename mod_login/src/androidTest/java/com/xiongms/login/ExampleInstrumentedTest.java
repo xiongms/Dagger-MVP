@@ -1,4 +1,4 @@
-package com.hhg365.login;
+package com.xiongms.login;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

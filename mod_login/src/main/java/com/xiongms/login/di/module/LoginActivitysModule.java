@@ -1,7 +1,7 @@
-package com.hhg365.login.di.module;
+package com.xiongms.login.di.module;
 
-import com.hhg365.login.mvp.login.LoginActivity;
-import com.hhg365.login.mvp.login.LoginModule;
+import com.xiongms.login.mvp.login.LoginActivity;
+import com.xiongms.login.mvp.login.LoginModule;
 import com.xiongms.libcore.di.component.BaseActivityComponent;
 import com.xiongms.libcore.di.module.DefaultActivityModule;
 import com.xiongms.libcore.di.scope.ActivityScope;

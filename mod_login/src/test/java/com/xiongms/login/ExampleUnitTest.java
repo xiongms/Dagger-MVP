@@ -1,4 +1,4 @@
-package com.hhg365.login;
+package com.xiongms.login;
 
 import org.junit.Test;
 

@@ -1,6 +1,6 @@
 package com.xiongms.app_a.di.component;
 
-import com.hhg365.login.di.module.LoginActivitysModule;
+import com.xiongms.login.di.module.LoginActivitysModule;
 import com.xiongms.app_a.di.AppApplication;
 import com.xiongms.libcore.di.module.ApplicationModule;
 import com.xiongms.libcore.di.module.NetModule;

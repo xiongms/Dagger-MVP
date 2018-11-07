@@ -1,1 +1,1 @@
-include ':libcore', ':mod_login',  ':app_a', ':mod_main'
+include ':libcore', ':mod_login',  ':mod_main',  ':app_a'

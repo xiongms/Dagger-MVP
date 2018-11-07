@@ -1,4 +1,4 @@
-package com.hhg365.login.mvp.login;
+package com.xiongms.login.mvp.login;
 
 import javax.inject.Named;
 
@@ -16,10 +16,6 @@ public abstract class LoginModule {
     static String provideActivityName() {
         return LoginActivity.class.getSimpleName();
     }
-//
-//    @Provides
-//    static Contract.Presenter providePresenter(LoginPresenter presenter) {
-//        return presenter;
-//    }
+
 }
 

@@ -1,28 +1,21 @@
-package com.hhg365.login.mvp.login;
+package com.xiongms.login.mvp.login;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.graphics.drawable.VectorDrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.hhg365.login.BuildConfig;
-import com.hhg365.login.R;
-import com.hhg365.login.R2;
+import com.xiongms.login.BuildConfig;
+import com.xiongms.login.R;
+import com.xiongms.login.R2;
 import com.xiongms.libcore.config.RouterConfig;
 import com.xiongms.libcore.mvp.BaseActivity;
 import com.xiongms.libcore.utils.ActivityUtil;
 import com.xiongms.libcore.utils.StrUtil;
-import com.xiongms.libcore.utils.ToastUtil;
-
-import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.OnClick;

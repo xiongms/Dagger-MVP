@@ -1,4 +1,4 @@
-package com.hhg365.login.bean.req;
+package com.xiongms.login.bean.req;
 
 /**
  *
