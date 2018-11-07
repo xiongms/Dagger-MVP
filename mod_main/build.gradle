@@ -1,0 +1,66 @@
+if (build_module == build_module_login) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+    apply plugin: 'com.jakewharton.butterknife'
+}
+
+android {
+    resourcePrefix 'main_'
+
+    buildToolsVersion build_config.build_tool
+    compileSdkVersion build_config.compile_sdk
+
+    defaultConfig {
+        minSdkVersion build_config.min_sdk
+        targetSdkVersion build_config.target_sdk
+        versionCode build_config.version_code
+        versionName build_config.version_name
+
+        if (build_module == build_module_login) {
+            applicationId "com.xiongms.app_report"
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath = true
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+
+    implementation project(':libcore')
+
+    // apt
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
+
+    annotationProcessor "com.google.dagger:dagger-compiler:2.16"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.16"
+}

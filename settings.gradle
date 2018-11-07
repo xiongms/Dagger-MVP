@@ -1,0 +1,1 @@
+include ':libcore', ':mod_login',  ':app_a', ':mod_main'

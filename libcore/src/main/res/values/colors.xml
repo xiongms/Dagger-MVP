@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+
+    <color name="window_background">#F5F5F5</color>
+    <color name="background">#F5F5F5</color>
+    <color name="background_gray">#cecece</color>
+    <color name="transparent">#00000000</color>
+    <color name="opacity">#2F000000</color>
+    <color name="text_blue">#165FC6</color>
+    <color name="text_green">#32B45A</color>
+    <color name="text_orange">#d7a201</color>
+    <color name="yellow">#ffe100</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="white_pressed">#f2f2f2</color>
+    <color name="text_selected">#FF0000</color>
+    <color name="gray">#d7d7d7</color>
+    <color name="red">#FA5444</color>
+    <color name="translucent_bg">#66000000</color>
+
+    <color name="translucent_white">#6FFFFFFF</color>
+    <color name="chart_line_today">#FFD43D</color>
+    <color name="chart_line_yesterday">#FFC8C2</color>
+
+
+    <color name="press">#f5f5f5</color>
+    <color name="text_deep_frme">#dddddd</color>
+    <color name="line_focus_color">#cecece</color>
+
+
+    <color name="tab_white">#F5F5F5</color>
+
+
+    <color name="list_selector_background_transition">#FAFAFA</color>
+    <color name="list_selector_background_focus">#00000000</color>
+    <color name="list_selector_background_normal">#00000000</color>
+
+
+
+    <color name="text_black">#111111</color>
+    <color name="text_gray">#777777</color>
+    <color name="text_light_gray">#999999</color>
+    <color name="text_red">#F5292A</color>
+    <color name="text_light_red">#FE6464</color>
+    <color name="text_gold">#AC7C4B</color>
+    <color name="text_deep_gold">#5a3106</color>
+    <color name="text_light_gold">#C6B6A7</color>
+    <color name="text_yellow">#e1c917</color>
+    <color name="text_deep_blue">#4a5975</color>
+
+
+    <color name="chart_line">#B38047</color>
+
+
+
+
+    <color name="tab_selected_pressed">#FFC44033</color>
+    <color name="tab_pressed">#f2f2f2</color>
+
+    <color name="button_red_normal">#F94F3E</color>
+    <color name="button_red_pressed">#EA463F</color>
+    <color name="button_green_normal">#4DE3A3</color>
+    <color name="button_green_pressed">#3bda96</color>
+    <color name="button_gray_disabled">#CCCCCC</color>
+    <color name="button_blue_normal">#0994EC</color>
+    <color name="button_blue_pressed">#0985d4</color>
+
+    <color name="line_color">#d9d9d9</color>
+</resources>

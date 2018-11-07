@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size">15.0sp</dimen>
+    <dimen name="text_big_size">18.0sp</dimen>
+    <dimen name="text_super_big_size">25.0sp</dimen>
+    <dimen name="text_small_size">13.5sp</dimen>
+    <dimen name="text_super_small_size">11.5sp</dimen>
+    <dimen name="text_size_10sp">10.0sp</dimen>
+
+    <dimen name="textandiconmargin">10dp</dimen>
+
+    <dimen name="text_70px">35sp</dimen>
+    <dimen name="text_60px">30sp</dimen>
+    <dimen name="text_50px">25sp</dimen>
+    <dimen name="text_44px">22sp</dimen>
+    <dimen name="text_38px">19sp</dimen>
+    <dimen name="text_34px">17sp</dimen>
+    <dimen name="text_30px">15sp</dimen>
+    <dimen name="text_26px">13sp</dimen>
+    <dimen name="text_24px">12sp</dimen>
+    <dimen name="text_22px">11sp</dimen>
+    <dimen name="text_20px">10sp</dimen>
+</resources>

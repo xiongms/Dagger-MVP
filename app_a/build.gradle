@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    buildToolsVersion       build_config.build_tool
+    compileSdkVersion       build_config.compile_sdk
+
+    defaultConfig {
+
+        if (build_module == build_module_app) {
+            applicationId build_config.app_dd_id
+        }
+
+        minSdkVersion       build_config.min_sdk
+        targetSdkVersion    build_config.target_sdk
+        versionCode         build_config.version_code
+        versionName         build_config.version_name
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [FILE_PROVIDER_AUTHOR: build_config.file_provider,
+                                XG_ACCESS_ID        : "2100298183",
+                                XG_ACCESS_KEY       : "A2QHZA3142BE",
+        ]
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ AROUTER_MODULE_NAME : project.getName() ]
+            }
+        }
+
+        lintOptions {
+            checkReleaseBuilds false
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+
+        // Enabling multidex support.
+        multiDexEnabled true
+    }
+
+    buildTypes {
+        debug {
+            multiDexEnabled true
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release {
+            multiDexEnabled true
+            // 是否混淆
+            minifyEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            // 混淆配置文件
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation project(':libcore')
+    implementation project(':mod_login')
+    implementation project(':mod_main')
+    // apt
+    annotationProcessor 'com.alibaba:arouter-compiler:1.2.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.16"
+    annotationProcessor "com.google.dagger:dagger-android-processor:2.16"
+}

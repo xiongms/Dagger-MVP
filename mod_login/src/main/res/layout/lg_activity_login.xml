@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/ed_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="45dp"
+        android:background="@color/transparent"
+        android:hint="@string/lg_input_phone"
+        android:inputType="phone"
+        android:lines="1"
+        android:maxLength="11"
+        android:minHeight="45dp"
+        android:text=""
+        android:textSize="@dimen/text_30px"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/line_color"
+        app:layout_constraintLeft_toLeftOf="@id/ed_phone"
+        app:layout_constraintRight_toRightOf="@id/ed_phone"
+        app:layout_constraintTop_toBottomOf="@id/ed_phone" />
+
+    <EditText
+        android:id="@+id/et_code"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@color/transparent"
+        android:hint="@string/lg_input_pwd"
+        android:inputType="number"
+        android:lines="1"
+        android:minHeight="45dp"
+        android:text=""
+        android:textSize="@dimen/text_30px"
+        app:layout_constraintLeft_toLeftOf="@id/ed_phone"
+        app:layout_constraintRight_toLeftOf="@id/btn_sendsms"
+        app:layout_constraintTop_toBottomOf="@id/ed_phone" />
+
+    <Button
+        android:id="@+id/btn_sendsms"
+        style="@style/button_gray_square_solid"
+        android:layout_width="wrap_content"
+        android:layout_height="31dp"
+        android:enabled="false"
+        android:gravity="center"
+        android:minWidth="90dp"
+        android:paddingEnd="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingStart="0dp"
+        android:text="发送验证码"
+        android:textColor="@color/button_smscode_text_color"
+        android:textSize="@dimen/text_30px"
+        android:background="@drawable/button_smscode_square_solid_selector"
+        app:layout_constraintBottom_toBottomOf="@id/et_code"
+        app:layout_constraintRight_toRightOf="@id/ed_phone"
+        app:layout_constraintTop_toTopOf="@id/et_code" />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/line_color"
+        app:layout_constraintLeft_toLeftOf="@id/ed_phone"
+        app:layout_constraintRight_toRightOf="@id/ed_phone"
+        app:layout_constraintTop_toBottomOf="@id/et_code" />
+
+    <Button
+        android:id="@+id/btn_login"
+        style="@style/button_gold_circle_solid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="60dp"
+        android:minHeight="38dp"
+        android:text="登录"
+        app:layout_constraintLeft_toLeftOf="@id/ed_phone"
+        app:layout_constraintRight_toRightOf="@id/ed_phone"
+        app:layout_constraintTop_toBottomOf="@id/et_code" />
+</android.support.constraint.ConstraintLayout>
