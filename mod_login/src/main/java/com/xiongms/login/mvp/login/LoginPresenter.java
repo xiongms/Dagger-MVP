@@ -7,7 +7,6 @@ import com.xiongms.libcore.bean.BaseBean;
 import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
 import com.xiongms.libcore.config.RouterConfig;
-import com.xiongms.libcore.di.qualifiers.RQBRetrofit;
 import com.xiongms.libcore.env.Environment;
 import com.xiongms.libcore.mvp.BasePresenter;
 import com.xiongms.libcore.network.rx.RxResultHelper;
@@ -50,7 +49,6 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
     public Environment mEnv;
 
     @Inject
-    @RQBRetrofit
     public Retrofit mRetrofit;
 
     @Inject
@@ -123,7 +121,7 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
-
+                        mRootView.showLoading(true);
                     }
 
                     @Override
@@ -134,7 +132,7 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
 
                     @Override
                     public void onError(Throwable e) {
-
+                        mRootView.hideLoading();
                     }
 
                     @Override

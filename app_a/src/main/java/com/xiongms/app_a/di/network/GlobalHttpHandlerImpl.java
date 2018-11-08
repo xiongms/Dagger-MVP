@@ -1,8 +1,9 @@
-package com.xiongms.libcore.network.interceptor;
+package com.xiongms.app_a.di.network;
 
 import android.os.Build;
 
 import com.xiongms.libcore.BaseApplication;
+import com.xiongms.libcore.network.GlobalHttpHandler;
 import com.xiongms.libcore.utils.StrUtil;
 
 import org.json.JSONException;
@@ -21,25 +22,37 @@ import okhttp3.Response;
 import okio.Buffer;
 
 /**
- * 添加公共参数
- * @author xiongms
- * @time 2018-08-16 14:11
+ *
  */
-public class CommonParamInterceptor implements Interceptor {
+public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
+
     private final Charset UTF8 = Charset.forName("UTF-8");
 
-    public CommonParamInterceptor() {
+    @Override
+    public Response onHttpResultResponse(String httpResult, Interceptor.Chain chain, Response response) throws IOException {
+        return response;
     }
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request();
+    public Request onHttpRequestBefore(Interceptor.Chain chain, Request request) throws IOException {
         RequestBody requestBody = request.body();
         HttpUrl.Builder modifiedUrlBuilder = request.url().newBuilder();
-        HttpUrl modifiedUrl;
         String method = request.method();
-        if ("GET".equals(method)) {
 
+        // 全局配置http头信息
+        Request.Builder requestBuilder = request.newBuilder();
+        requestBuilder.header("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299");
+        requestBuilder.header("Accept-Language", "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5");
+        requestBuilder.header("Proxy-Connection", "keep-alive");
+        requestBuilder.header("Cache-Control", "max-age=0");
+        requestBuilder.header("Content-Type", "application/json");
+        requestBuilder.header("Accept", "application/json");
+
+        requestBuilder.method(method, request.body());
+
+
+        if ("GET".equals(method)) {
+            // 修改GET请求的参数
             modifiedUrlBuilder.addQueryParameter("appid", "rqb_android");
             modifiedUrlBuilder.addQueryParameter("cid", "rqb_android");
             modifiedUrlBuilder.addQueryParameter("sign", "");
@@ -49,18 +62,14 @@ public class CommonParamInterceptor implements Interceptor {
             modifiedUrlBuilder.addQueryParameter("nt", String.valueOf(BaseApplication.getInstance().getEnv().networkOperator()));
 
             modifiedUrlBuilder.addQueryParameter("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
-//            modifiedUrlBuilder.addQueryParameter("userId", String.valueOf(0));
             modifiedUrlBuilder.addQueryParameter("shopid", String.valueOf(BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId()));
 
-            if(StrUtil.isEmpty(modifiedUrlBuilder.build().queryParameter("phone"))) {
+            if (StrUtil.isEmpty(modifiedUrlBuilder.build().queryParameter("phone"))) {
                 modifiedUrlBuilder.addQueryParameter("phone", BaseApplication.getInstance().getEnv().appPreferencesHelper().getUserPhone());
             }
-            //TODO add param
-            modifiedUrl = modifiedUrlBuilder.build();
-
-            return chain.proceed(request.newBuilder().url(modifiedUrl).build());
+            return requestBuilder.url(modifiedUrlBuilder.build()).build();
         } else if (request.body() instanceof FormBody) {
-            Request.Builder requestBuilder = request.newBuilder();
+            // 全局修改表单post参数
             FormBody.Builder newFormBody = new FormBody.Builder();
             FormBody oldFormBody = (FormBody) request.body();
             if (oldFormBody != null) {
@@ -68,12 +77,11 @@ public class CommonParamInterceptor implements Interceptor {
                     newFormBody.addEncoded(oldFormBody.encodedName(i), oldFormBody.encodedValue(i));
                 }
             }
-            //TODO add param
             requestBuilder.method(request.method(), newFormBody.build());
             request = requestBuilder.build();
-            return chain.proceed(request);
+            return request;
         } else if (request.body().contentType().subtype().equalsIgnoreCase("json")) {
-
+            // 全局修改post json参数
             String body = null;
             if (requestBody != null) {
                 Buffer buffer = new Buffer();
@@ -98,16 +106,14 @@ public class CommonParamInterceptor implements Interceptor {
                 jsonObject.put("nt", String.valueOf(BaseApplication.getInstance().getEnv().networkOperator()));
 
                 jsonObject.put("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
-//                jsonObject.put("userId", 0);
                 jsonObject.put("shopid", BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId());
-
 
                 boolean hadPhone = false;
                 try {
                     hadPhone = !StrUtil.isEmpty(jsonObject.getString("phone"));
                 } catch (Exception ex) {
                 }
-                if(!hadPhone) {
+                if (!hadPhone) {
                     String phone = BaseApplication.getInstance().getEnv().appPreferencesHelper().getUserPhone();
                     jsonObject.put("phone", phone);
                 }
@@ -120,11 +126,10 @@ public class CommonParamInterceptor implements Interceptor {
             RequestBody requestBody1 = RequestBody.create(MediaType.parse("application/json"), newJsonBody);
             //TODO add param
 
-            Request.Builder requestBuilder = request.newBuilder();
             requestBuilder.method(request.method(), requestBody1);
             request = requestBuilder.build();
-            return chain.proceed(request);
+            return request;
         }
-        return chain.proceed(request);
+        return request;
     }
 }

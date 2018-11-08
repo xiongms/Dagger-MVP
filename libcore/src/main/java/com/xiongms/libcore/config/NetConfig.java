@@ -7,10 +7,6 @@ package com.xiongms.libcore.config;
  */
 public interface NetConfig {
 
-    String NET_DOMAIN_NAME = "domain_name";
-
-    String NET_RQB_DOMAIN = "https://www.baidu.com/";
-
     int NET_TIME_OUT_CONNECT = 60;
     int NET_TIME_OUT_READ = 60;
     int NET_TIME_OUT_WRITE = 60;

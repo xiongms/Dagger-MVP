@@ -10,7 +10,6 @@ import com.xiongms.libcore.di.qualifiers.ApplicationContext;
 import com.xiongms.libcore.di.qualifiers.NetworkType;
 import com.xiongms.libcore.di.qualifiers.PackageName;
 import com.xiongms.libcore.di.qualifiers.PreferenceInfo;
-import com.xiongms.libcore.di.qualifiers.RQBRetrofit;
 import com.xiongms.libcore.env.Environment;
 import com.xiongms.libcore.utils.AppPreferencesHelper;
 import com.xiongms.libcore.utils.AppUtil;
@@ -41,7 +40,7 @@ public class ApplicationModule {
     Environment provideEnvironment(
             final @NonNull Gson gson,
             final AppPreferencesHelper appPreferencesHelper,
-            final @RQBRetrofit Retrofit rqbRetrofit,
+            final Retrofit rqbRetrofit,
             final @NetworkType int networkOperator,
             final @PackageName String packageName,
             final @AppVersion String appVersion) {

@@ -23,11 +23,11 @@ public class MainPresenter extends BasePresenter<Contract.View> implements Contr
     @Override
     public void onAttach(Contract.View rootView) {
         super.onAttach(rootView);
-        rootView.setText("click:" + mClassName);
+        rootView.setText(mClassName);
     }
 
     @Override
     public void clickTextView() {
-        ToastUtil.show(mClassName);
+        ToastUtil.show("click:" + mClassName);
     }
 }

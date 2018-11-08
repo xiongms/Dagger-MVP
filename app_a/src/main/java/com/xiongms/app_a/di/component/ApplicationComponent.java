@@ -1,5 +1,8 @@
 package com.xiongms.app_a.di.component;
 
+import android.app.Application;
+
+import com.xiongms.libcore.di.module.GlobalConfigModule;
 import com.xiongms.login.di.module.LoginActivitysModule;
 import com.xiongms.app_a.di.AppApplication;
 import com.xiongms.libcore.di.module.ApplicationModule;
@@ -8,6 +11,7 @@ import com.xiongms.mod_main.di.module.MainActivitysModule;
 
 import javax.inject.Singleton;
 
+import dagger.BindsInstance;
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.support.AndroidSupportInjectionModule;
@@ -23,6 +27,7 @@ import dagger.android.support.AndroidSupportInjectionModule;
         AndroidInjectionModule.class,
         AndroidSupportInjectionModule.class,
         // 公共的Module
+        GlobalConfigModule.class,
         ApplicationModule.class,
         NetModule.class,
         // 当前组件注入module
@@ -30,5 +35,6 @@ import dagger.android.support.AndroidSupportInjectionModule;
         MainActivitysModule.class})
 public interface ApplicationComponent {
     void inject(AppApplication application);
+
 }
 

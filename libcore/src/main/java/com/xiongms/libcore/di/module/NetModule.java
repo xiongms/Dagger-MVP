@@ -4,17 +4,17 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.xiongms.libcore.BuildConfig;
 import com.xiongms.libcore.config.NetConfig;
-import com.xiongms.libcore.di.qualifiers.RQBOkHttpClient;
-import com.xiongms.libcore.di.qualifiers.RQBRetrofit;
+import com.xiongms.libcore.di.qualifiers.DefaultBaseUrl;
+import com.xiongms.libcore.network.GlobalHttpHandler;
 import com.xiongms.libcore.network.converter.gson.RQBGsonConverterFactory;
 import com.xiongms.libcore.network.converter.scalar.RQBScalarsConverterFactory;
-import com.xiongms.libcore.network.interceptor.CommonParamInterceptor;
-import com.xiongms.libcore.network.interceptor.CommonHeaderInterceptor;
 import com.xiongms.libcore.network.interceptor.LoggingInterceptor;
 import com.xiongms.libcore.network.interceptor.RetryIntercept;
 
 
+import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
@@ -25,13 +25,17 @@ import javax.net.ssl.X509TrustManager;
 
 import dagger.Module;
 import dagger.Provides;
+import io.reactivex.annotations.Nullable;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
+ * 提供网络相关的实例
+ *
  * @author xiongms
  * @time 2018-08-16 10:07
  */
@@ -61,19 +65,6 @@ public class NetModule {
         return new RetryIntercept(NetConfig.NET_MAX_RETRY_TIMES);
     }
 
-    @Provides
-    @Singleton
-    CommonHeaderInterceptor provideCommonHeaderInterceptor() {
-        return new CommonHeaderInterceptor();
-    }
-
-    @Provides
-    @Singleton
-    CommonParamInterceptor provideApiRequestCommonParamInterceptor() {
-        return new CommonParamInterceptor();
-    }
-
-
     @Singleton
     @Provides
     X509TrustManager providesTrustManagers() {
@@ -97,7 +88,7 @@ public class NetModule {
 
     @Singleton
     @Provides
-    SSLSocketFactory providesRQBSSLSocketFactory(
+    SSLSocketFactory providesSSLSocketFactory(
             X509TrustManager trustManagers) {
 
         SSLSocketFactory sslSocketFactory = null;
@@ -112,23 +103,36 @@ public class NetModule {
         return sslSocketFactory;
     }
 
+
     @Singleton
     @Provides
-    @RQBOkHttpClient
-    OkHttpClient providesRQBOkHttpClient(CommonHeaderInterceptor commonHeaderInterceptor,
-                                         LoggingInterceptor httpLoggingInterceptor,
-                                         CommonParamInterceptor commonParamInterceptor,
-                                         RetryIntercept retryIntercept,
-                                         X509TrustManager x509TrustManager,
-                                         SSLSocketFactory sslSocketFactory) {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+    static OkHttpClient.Builder provideClientBuilder() {
+        return new OkHttpClient.Builder();
+    }
+
+    @Singleton
+    @Provides
+    OkHttpClient providesOkHttpClient(OkHttpClient.Builder builder,
+                                      LoggingInterceptor httpLoggingInterceptor,
+                                      RetryIntercept retryIntercept,
+                                      @Nullable final GlobalHttpHandler handler,
+                                      Map<String, String> baseUrls,
+                                      X509TrustManager x509TrustManager,
+                                      SSLSocketFactory sslSocketFactory) {
 
         builder.connectTimeout(NetConfig.NET_TIME_OUT_CONNECT, TimeUnit.SECONDS);
         builder.readTimeout(NetConfig.NET_TIME_OUT_READ, TimeUnit.SECONDS);
         builder.writeTimeout(NetConfig.NET_TIME_OUT_WRITE, TimeUnit.SECONDS);
 
-        builder.addInterceptor(commonHeaderInterceptor);
-        builder.addInterceptor(commonParamInterceptor);
+        if (handler != null) {
+            builder.addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    return chain.proceed(handler.onHttpRequestBefore(chain, chain.request()));
+                }
+            });
+        }
+
         builder.addInterceptor(retryIntercept);
 
         if (BuildConfig.DEBUG) {
@@ -139,17 +143,25 @@ public class NetModule {
         builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
 
         //动态baseUrl
-        RetrofitUrlManager.getInstance().putDomain(NetConfig.NET_DOMAIN_NAME, NetConfig.NET_RQB_DOMAIN);
+        for (String name : baseUrls.keySet()) {
+            RetrofitUrlManager.getInstance().putDomain(name, baseUrls.get(name));
+        }
         return RetrofitUrlManager.getInstance().with(builder).build();
+    }
+
+
+    @Singleton
+    @Provides
+    static Retrofit.Builder provideRetrofitBuilder() {
+        return new Retrofit.Builder();
     }
 
     @Singleton
     @Provides
-    @RQBRetrofit
-    Retrofit providesRQBRetrofit(@RQBOkHttpClient OkHttpClient okHttpClient, Gson gson) {
-        return new Retrofit.Builder()
+    Retrofit providesRQBRetrofit(Retrofit.Builder retrofitBuilder, @DefaultBaseUrl String defaultBaseUrl, OkHttpClient okHttpClient, Gson gson) {
+        return retrofitBuilder
                 .client(okHttpClient)
-                .baseUrl(NetConfig.NET_RQB_DOMAIN)
+                .baseUrl(defaultBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(RQBScalarsConverterFactory.create(gson))
                 .addConverterFactory(RQBGsonConverterFactory.create(gson))
