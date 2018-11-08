@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
+import com.xiongms.libcore.BaseApplication;
+
 public class SPUtil {
     private static final String SETTING = "app_setting_";
 
@@ -20,7 +22,7 @@ public class SPUtil {
             } else {
                 name = SETTING;
             }
-            sharedPreferences = ActivityUtil.getInstance().getCurrentActivity().getSharedPreferences(name, Context.MODE_PRIVATE);
+            sharedPreferences = BaseApplication.getInstance().getApplicationContext().getSharedPreferences(name, Context.MODE_PRIVATE);
         } catch (Exception e) {
         }
         return sharedPreferences;
