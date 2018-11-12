@@ -33,7 +33,7 @@ public class NotificationUtil {
      * @param notificationTitle     通知标题
      * @param isCanClear            通知是否可被清除
      */
-    public static void showDownloadSuccessNotification(Context context, File file, Bitmap largeIcon, int notificationIconResId, String notificationTitle, String notificationContent, boolean isCanClear) {
+    public static void showDownloadSuccessNotification(Context context, File file, String fileProvider, Bitmap largeIcon, int notificationIconResId, String notificationTitle, String notificationContent, boolean isCanClear) {
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
 
@@ -52,11 +52,11 @@ public class NotificationUtil {
         installIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if("apk".equals(FileUtil.getExtensionName(file.getName()))) {
             installIntent.setAction(Intent.ACTION_VIEW);
-            Uri uri = FileUtil.getUri(context, file);
+            Uri uri = FileUtil.getUri(context, file, fileProvider);
             installIntent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
             installIntent.setAction(Intent.ACTION_SEND);
-            installIntent.putExtra(Intent.EXTRA_STREAM, FileUtil.getUri(context, file));
+            installIntent.putExtra(Intent.EXTRA_STREAM, FileUtil.getUri(context, file, fileProvider));
             installIntent.setType("*/*");
         }
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "1"); //与channelId对应

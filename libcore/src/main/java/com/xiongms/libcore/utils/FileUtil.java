@@ -23,13 +23,13 @@ public class FileUtil {
      * 描述：获取Uri
      * Android N与之前的方式有区别
      */
-    public static Uri getUri(Context context, File file) {
+    public static Uri getUri(Context context, File file, String fileProvider) {
         if (file == null) {
             return null;
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N || !isCanUseSD(context)) {
-            Uri uri = FileProvider.getUriForFile(context, com.xiongms.libcore.BuildConfig.FILE_PROVIDER, file);
+            Uri uri = FileProvider.getUriForFile(context, fileProvider, file);
             return uri;
         } else {
             Uri uri = Uri.fromFile(file);

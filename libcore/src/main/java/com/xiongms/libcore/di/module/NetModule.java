@@ -14,6 +14,7 @@ import com.xiongms.libcore.network.interceptor.RetryIntercept;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -116,6 +117,7 @@ public class NetModule {
                                       LoggingInterceptor httpLoggingInterceptor,
                                       RetryIntercept retryIntercept,
                                       @Nullable final GlobalHttpHandler handler,
+                                      @Nullable List<Interceptor> interceptors,
                                       Map<String, String> baseUrls,
                                       X509TrustManager x509TrustManager,
                                       SSLSocketFactory sslSocketFactory) {
@@ -133,12 +135,17 @@ public class NetModule {
             });
         }
 
+        if (interceptors != null) {//如果外部提供了interceptor的集合则遍历添加
+            for (Interceptor interceptor : interceptors) {
+                builder.addInterceptor(interceptor);
+            }
+        }
+
         builder.addInterceptor(retryIntercept);
 
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(httpLoggingInterceptor);
         }
-
 
         builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
 
