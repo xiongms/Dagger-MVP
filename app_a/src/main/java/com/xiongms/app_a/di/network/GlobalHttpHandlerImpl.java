@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.nio.charset.Charset;
 
+import javax.inject.Inject;
+
 import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -22,11 +24,18 @@ import okhttp3.Response;
 import okio.Buffer;
 
 /**
- *
+ * 全局Http请求处理
+ * @author xiongms
+ * @time 2018-11-13 16:49
  */
 public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
 
     private final Charset UTF8 = Charset.forName("UTF-8");
+
+    @Inject
+    public GlobalHttpHandlerImpl() {
+
+    }
 
     @Override
     public Response onHttpResultResponse(String httpResult, Interceptor.Chain chain, Response response) throws IOException {

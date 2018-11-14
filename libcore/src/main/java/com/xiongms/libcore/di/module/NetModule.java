@@ -6,8 +6,6 @@ import com.xiongms.libcore.BuildConfig;
 import com.xiongms.libcore.config.NetConfig;
 import com.xiongms.libcore.di.qualifiers.DefaultBaseUrl;
 import com.xiongms.libcore.network.GlobalHttpHandler;
-import com.xiongms.libcore.network.converter.gson.RQBGsonConverterFactory;
-import com.xiongms.libcore.network.converter.scalar.RQBScalarsConverterFactory;
 import com.xiongms.libcore.network.interceptor.LoggingInterceptor;
 import com.xiongms.libcore.network.interceptor.RetryIntercept;
 
@@ -33,6 +31,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * 提供网络相关的实例
@@ -170,8 +170,8 @@ public class NetModule {
                 .client(okHttpClient)
                 .baseUrl(defaultBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(RQBScalarsConverterFactory.create(gson))
-                .addConverterFactory(RQBGsonConverterFactory.create(gson))
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 }

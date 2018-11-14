@@ -14,6 +14,7 @@ import com.xiongms.libcore.BaseApplication;
 import com.xiongms.libcore.bean.BaseBean;
 import com.xiongms.libcore.network.exception.ApiException;
 import com.xiongms.libcore.network.exception.ExceptionCont;
+import com.xiongms.libcore.utils.JsonUtil;
 import com.xiongms.libcore.utils.ToastUtil;
 import com.xiongms.libcore.utils.TokenBus;
 
@@ -35,7 +36,7 @@ import okhttp3.RequestBody;
 import retrofit2.HttpException;
 
 /**
- * 
+ * Retrofit请求相关的工具类
  * @author xiongms
  * @time 2018-08-28 17:11
  */
@@ -75,6 +76,8 @@ public class RxUtils {
         }
     }
 
+
+
     /**
      * 线程调度器
      * 设置耗时操作在io线程
@@ -86,6 +89,39 @@ public class RxUtils {
             public ObservableSource apply(Observable upstream) {
                 return upstream.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread());
+            }
+        };
+    }
+
+
+    /**
+     * 检查返回值，如果token失效，抛出异常
+     * @param <T>
+     * @return
+     */
+    public static <T> ObservableTransformer<T, T> handleResult() {
+        return new ObservableTransformer<T, T>() {
+            @Override
+            public Observable<T> apply(Observable<T> tObservable) {
+                return tObservable.flatMap(new Function<T, ObservableSource<T>>() {
+
+                    @Override
+                    public ObservableSource<T> apply(T resultEntity) throws Exception {
+                        BaseBean baseBean = null;
+                        if (resultEntity instanceof String) {
+                            baseBean = JsonUtil.fromJson((String) resultEntity, BaseBean.class);
+                        } else if (resultEntity instanceof BaseBean) {
+                            baseBean = (BaseBean) resultEntity;
+                        }
+
+                        if (baseBean != null && ExceptionCont.TOKEN_ERROR == baseBean.getCode()) {
+                            // 当前返回值为BaseBean格式，并且code为token失效，需要抛出异常
+                            return Observable.error(new ApiException(baseBean.getMsg(), baseBean.getCode()));
+                        }
+
+                        return Observable.just(resultEntity);
+                    }
+                });
             }
         };
     }

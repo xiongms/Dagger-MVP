@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.xiongms.login.BuildConfig;
 import com.xiongms.login.R;
 import com.xiongms.login.R2;
 import com.xiongms.libcore.config.RouterConfig;

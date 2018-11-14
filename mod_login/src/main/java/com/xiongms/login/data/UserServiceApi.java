@@ -14,6 +14,6 @@ public interface UserServiceApi {
 
 
     @POST("/api/Message/SendSSMS")
-    Observable<BaseBean> sendSMS(@Body JsonObject json);
+    Observable<String> sendSMS(@Body JsonObject json);
 
 }
