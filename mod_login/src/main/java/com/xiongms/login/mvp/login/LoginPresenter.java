@@ -49,18 +49,14 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
     public AppPreferencesHelper mAppPreferencesHelper;
 
     @Inject
-    public Retrofit mRetrofit;
-
-    @Inject
-    public LoginPresenter() {
-        super();
+    public LoginPresenter(Retrofit retrofit) {
+        userServiceApi = retrofit.create(UserServiceApi.class);
     }
 
     @Override
     public void onAttach(Contract.View rootView) {
         super.onAttach(rootView);
 
-        userServiceApi = mRetrofit.create(UserServiceApi.class);
 
         orgMobile = mAppPreferencesHelper.getUser().getPhone();
 
