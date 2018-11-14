@@ -1,8 +1,4 @@
-if (build_module == build_module_libcore) {
-    apply plugin: 'com.android.application'
-} else {
-    apply plugin: 'com.android.library'
-}
+apply plugin: 'com.android.library'
 
 android {
     buildToolsVersion       build_config.build_tool
@@ -26,29 +22,13 @@ android {
     buildTypes {
         debug {
             minifyEnabled false
-            buildConfigField "String", "FILE_PROVIDER", "\"" + build_config.file_provider + "\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             minifyEnabled false
-            buildConfigField "String", "FILE_PROVIDER", "\"" + build_config.file_provider + "\""
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
-    sourceSets {
-        main {
-            if (build_module == build_module_libcore) {
-                manifest.srcFile 'src/main/module/AndroidManifest.xml'
-            } else {
-                manifest.srcFile 'src/main/AndroidManifest.xml'
-                java {
-                    exclude '**/application/**'
-                }
-            }
-        }
-    }
-
 }
 
 dependencies {

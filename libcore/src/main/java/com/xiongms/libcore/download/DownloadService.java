@@ -23,6 +23,7 @@ public class DownloadService extends BaseService {
     private String appName;
     private Intent mIntent;
     private Bitmap largeIcon;
+    private String fileProvider;
     private boolean isApkInstall = false;
 
 
@@ -39,13 +40,14 @@ public class DownloadService extends BaseService {
         }
         mIntent = intent;
         appName = intent.getStringExtra("appName");
+        fileProvider = intent.getStringExtra("fileProvider");
         iconResId = intent.getIntExtra("iconResId", -1);
         largeIcon = intent.getParcelableExtra("largeIcon");
         isApkInstall = intent.getBooleanExtra("isApkInstall", false);
         if (iconResId == -1) {
             iconResId = R.mipmap.lib_ic_launcher;
         }
-        download(intent.getStringExtra("downloadUrl"), intent.getStringExtra("filePath"), intent.getStringExtra("fileName"), isApkInstall);
+        download(intent.getStringExtra("downloadUrl"), intent.getStringExtra("filePath"), intent.getStringExtra("fileName"), fileProvider, isApkInstall);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -56,7 +58,7 @@ public class DownloadService extends BaseService {
 
     @Override
     public void downloadSuccess(File file) {
-        NotificationUtil.showDownloadSuccessNotification(this, file, largeIcon, iconResId, appName, "下载完成,点击打开", false);
+        NotificationUtil.showDownloadSuccessNotification(this, file, fileProvider, largeIcon, iconResId, appName, "下载完成,点击打开", false);
     }
 
     @Override

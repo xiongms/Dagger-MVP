@@ -2,12 +2,12 @@ package com.xiongms.login.mvp.login;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonObject;
+import com.xiongms.libcore.utils.AppPreferencesHelper;
 import com.xiongms.login.data.UserServiceApi;
 import com.xiongms.libcore.bean.BaseBean;
 import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
 import com.xiongms.libcore.config.RouterConfig;
-import com.xiongms.libcore.env.Environment;
 import com.xiongms.libcore.mvp.BasePresenter;
 import com.xiongms.libcore.network.rx.RxResultHelper;
 import com.xiongms.libcore.network.rx.RxResultSubscriber;
@@ -46,26 +46,22 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
     private Disposable mDisposable;
 
     @Inject
-    public Environment mEnv;
+    public AppPreferencesHelper mAppPreferencesHelper;
 
     @Inject
-    public Retrofit mRetrofit;
-
-    @Inject
-    public LoginPresenter() {
-        super();
+    public LoginPresenter(Retrofit retrofit) {
+        userServiceApi = retrofit.create(UserServiceApi.class);
     }
 
     @Override
     public void onAttach(Contract.View rootView) {
         super.onAttach(rootView);
 
-        userServiceApi = mRetrofit.create(UserServiceApi.class);
 
-        orgMobile = mEnv.appPreferencesHelper().getUser().getPhone();
+        orgMobile = mAppPreferencesHelper.getUser().getPhone();
 
         // 进入登录页面后，删除保存的所有sharedpreference信息
-        mEnv.appPreferencesHelper().removeAll();
+        mAppPreferencesHelper.removeAll();
 
         mRootView.setPhone(orgMobile);
 

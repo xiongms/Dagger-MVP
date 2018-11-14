@@ -37,11 +37,11 @@ public class AppUtil {
      * @param context the context
      * @param file    文件路径
      */
-    public static void shareFile(Context context, File file) {
+    public static void shareFile(Context context, File file, String fileProvider) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.addCategory("android.intent.category.DEFAULT");
-        intent.putExtra(Intent.EXTRA_STREAM, FileUtil.getUri(context, file));
+        intent.putExtra(Intent.EXTRA_STREAM, FileUtil.getUri(context, file, fileProvider));
         intent.setType("*/*");
 
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -60,13 +60,13 @@ public class AppUtil {
      * @param context the context
      * @param file    apk文件路径
      */
-    public static void installApk(Context context, File file) {
+    public static void installApk(Context context, File file, String fileProvider) {
         Intent intent = new Intent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setAction(android.content.Intent.ACTION_VIEW);
         //添加这一句表示对目标应用临时授权该Uri所代表的文件
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        intent.setDataAndType(FileUtil.getUri(context, file),
+        intent.setDataAndType(FileUtil.getUri(context, file, fileProvider),
                 "application/vnd.android.package-archive");
         context.startActivity(intent);
     }

@@ -37,8 +37,8 @@ public abstract class BaseService extends Service {
      *
      * @param downloadUrl 文件下载地址
      */
-    public void download(String downloadUrl) {
-        download(downloadUrl, Environment.getExternalStorageDirectory().getPath(), System.currentTimeMillis() + "", true);
+    public void download(String downloadUrl, String fileProvider) {
+        download(downloadUrl, Environment.getExternalStorageDirectory().getPath(), System.currentTimeMillis() + "", fileProvider, true);
     }
 
     /**
@@ -47,8 +47,8 @@ public abstract class BaseService extends Service {
      * @param downloadUrl 文件下载地址
      * @param autoInstall 下载完成之后是否自动安装
      */
-    public void download(String downloadUrl, final boolean autoInstall) {
-        download(downloadUrl, Environment.getExternalStorageDirectory().getPath(), System.currentTimeMillis() + "", autoInstall);
+    public void download(String downloadUrl, String fileProvider, boolean autoInstall) {
+        download(downloadUrl, Environment.getExternalStorageDirectory().getPath(), System.currentTimeMillis() + "", fileProvider, autoInstall);
     }
 
     /**
@@ -59,13 +59,13 @@ public abstract class BaseService extends Service {
      * @param fileName    文件名
      * @param autoInstall 下载完成之后是否自动安装
      */
-    public void download(String downloadUrl, String filePath, String fileName, final boolean autoInstall) {
+    public void download(String downloadUrl, String filePath, String fileName, final String fileProvider, final boolean autoInstall) {
         httpRequest.download(downloadUrl, filePath, fileName, new DownloadCallback() {
             @Override
             public void onDownloadSuccess(File file) {
                 downloadSuccess(file);
                 if (autoInstall) {
-                    AppUtil.installApk(BaseService.this, file);
+                    AppUtil.installApk(BaseService.this, file, fileProvider);
                 }
             }
 

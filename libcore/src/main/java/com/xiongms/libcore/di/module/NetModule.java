@@ -6,14 +6,13 @@ import com.xiongms.libcore.BuildConfig;
 import com.xiongms.libcore.config.NetConfig;
 import com.xiongms.libcore.di.qualifiers.DefaultBaseUrl;
 import com.xiongms.libcore.network.GlobalHttpHandler;
-import com.xiongms.libcore.network.converter.gson.RQBGsonConverterFactory;
-import com.xiongms.libcore.network.converter.scalar.RQBScalarsConverterFactory;
 import com.xiongms.libcore.network.interceptor.LoggingInterceptor;
 import com.xiongms.libcore.network.interceptor.RetryIntercept;
 
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +31,8 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
  * 提供网络相关的实例
@@ -116,6 +117,7 @@ public class NetModule {
                                       LoggingInterceptor httpLoggingInterceptor,
                                       RetryIntercept retryIntercept,
                                       @Nullable final GlobalHttpHandler handler,
+                                      @Nullable List<Interceptor> interceptors,
                                       Map<String, String> baseUrls,
                                       X509TrustManager x509TrustManager,
                                       SSLSocketFactory sslSocketFactory) {
@@ -133,12 +135,17 @@ public class NetModule {
             });
         }
 
+        if (interceptors != null) {//如果外部提供了interceptor的集合则遍历添加
+            for (Interceptor interceptor : interceptors) {
+                builder.addInterceptor(interceptor);
+            }
+        }
+
         builder.addInterceptor(retryIntercept);
 
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(httpLoggingInterceptor);
         }
-
 
         builder.sslSocketFactory(sslSocketFactory, x509TrustManager);
 
@@ -163,8 +170,8 @@ public class NetModule {
                 .client(okHttpClient)
                 .baseUrl(defaultBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(RQBScalarsConverterFactory.create(gson))
-                .addConverterFactory(RQBGsonConverterFactory.create(gson))
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 }
