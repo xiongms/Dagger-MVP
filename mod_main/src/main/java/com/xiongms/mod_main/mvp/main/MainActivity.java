@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements Contrac
 
     @Override
     public void initData(@Nullable Bundle savedInstanceState) {
-        mPresenter.onAttach(this);
+        mPresenter.initData();
     }
 
     @Override

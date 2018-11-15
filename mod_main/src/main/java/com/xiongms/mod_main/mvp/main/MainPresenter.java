@@ -17,13 +17,12 @@ public class MainPresenter extends BasePresenter<Contract.View> implements Contr
 
     @Inject
     public MainPresenter() {
-        super();
+
     }
 
     @Override
-    public void onAttach(Contract.View rootView) {
-        super.onAttach(rootView);
-        rootView.setText(mClassName);
+    public void initData() {
+        mRootView.setText(mClassName);
     }
 
     @Override

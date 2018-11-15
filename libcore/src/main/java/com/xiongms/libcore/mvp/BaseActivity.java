@@ -41,7 +41,6 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
     DispatchingAndroidInjector<android.app.Fragment> frameworkFragmentInjector;
 
     @Inject
-    @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
     private Unbinder mUnbinder;
@@ -52,7 +51,7 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         super.onCreate(savedInstanceState);
         mContext = this;
         ActivityUtil.getInstance().addActivity(this);
-
+        mPresenter.onAttach(this);
         mLoadingDialogUtil = new LoadingDialogUtil(this);
         try {
             int layoutResID = initView(savedInstanceState);

@@ -25,7 +25,6 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
 
     protected View mRootView;
 
-    @Nullable
     @Inject
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
@@ -40,6 +39,9 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //绑定View
+        mPresenter.onAttach(this);
+
         mRootView = initView(inflater, container, savedInstanceState);
 
         try {

@@ -54,10 +54,7 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
     }
 
     @Override
-    public void onAttach(Contract.View rootView) {
-        super.onAttach(rootView);
-
-
+    public void initData() {
         orgMobile = mAppPreferencesHelper.getUser().getPhone();
 
         // 进入登录页面后，删除保存的所有sharedpreference信息

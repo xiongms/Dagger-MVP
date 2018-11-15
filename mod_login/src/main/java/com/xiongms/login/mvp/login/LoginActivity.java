@@ -69,7 +69,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Contr
         });
 
 
-        mPresenter.onAttach(this);
+        mPresenter.initData();
     }
 
 

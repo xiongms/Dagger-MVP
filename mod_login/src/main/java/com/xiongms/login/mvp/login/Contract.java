@@ -23,6 +23,9 @@ public interface Contract {
     }
 
     interface Presenter extends IPresenter<View> {
+
+        void initData();
+
         void login();
 
         void clickSendSMS();
