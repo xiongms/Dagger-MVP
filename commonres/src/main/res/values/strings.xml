@@ -1,0 +1,41 @@
+<resources>
+    <string name="lib_app_name">dagger-libcore</string>
+
+    <string name="loading">加载中</string>
+
+    <string name="listview_header_hint_normal">下拉刷新</string>
+    <string name="listview_header_hint_release">释放立即刷新</string>
+    <string name="listview_loading">正在加载...</string>
+    <string name="nomore_loading">--- 加载完毕 ---</string>
+    <string name="refreshing">正在刷新...</string>
+    <string name="refresh_done">刷新完成</string>
+    <string name="loading_done">加载完成</string>
+    <string name="listview_header_last_time">上次更新时间：</string>
+    <string name="load_failed">加载失败，请点我重试</string>
+    <string name="load_end">没有更多数据</string>
+
+    <string name="no_data">还没有任何数据哦~</string>
+
+
+    <string name="scan_touch_light">轻触照亮</string>
+
+    <string name="setting">设置</string>
+
+    <string name="modify_store_info">修改店铺信息</string>
+
+    <string name="modify_user_info">修改个人信息</string>
+
+    <string name="modify_head">修改头像</string>
+
+    <string name="modify_name">修改名称</string>
+
+    <string name="product_detail">商品详情</string>
+
+
+    <string name="title"></string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+</resources>

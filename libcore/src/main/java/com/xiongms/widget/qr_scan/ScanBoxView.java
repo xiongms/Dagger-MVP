@@ -298,7 +298,7 @@ public class ScanBoxView extends View {
             flashTextRect.top = (int) (flashTextRect.bottom - textHeight);
 
             if(isOpenFlashLight) {
-                flashLightTextPaint.setColor(getContext().getResources().getColor(R.color.text_gold));
+                flashLightTextPaint.setColor(Color.parseColor("#AC7C4B"));
             } else {
                 flashLightTextPaint.setColor(Color.WHITE);
             }

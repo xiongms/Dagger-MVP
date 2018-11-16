@@ -83,8 +83,8 @@ public class TitleView extends RelativeLayout {
                 break;
             case STYLE_WHITE:
                 rlContent.setBackgroundColor(Color.WHITE);
-                tvTitle.setTextColor(getResources().getColor(R.color.text_black));
-                tvMenu.setTextColor(getResources().getColor(R.color.text_black));
+                tvTitle.setTextColor(Color.parseColor("#111111"));
+                tvMenu.setTextColor(Color.parseColor("#111111"));
                 ivBack.setImageResource(R.drawable.ic_back);
                 lineView.setVisibility(VISIBLE);
                 break;
