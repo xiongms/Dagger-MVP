@@ -18,16 +18,7 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-
-        ndk {
-            //根据需要 自行选择添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
-        }
-
         manifestPlaceholders = [FILE_PROVIDER_AUTHOR: build_config.file_provider,
-                                XG_ACCESS_ID        : "2100298183",
-                                XG_ACCESS_KEY       : "A2QHZA3142BE",
         ]
 
         javaCompileOptions {
