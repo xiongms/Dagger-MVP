@@ -16,7 +16,7 @@ import dagger.android.support.AndroidSupportInjection;
 
 /**
  * MVP中Fragment基类
- * 
+ *
  * @author xiongms
  * @time 2018-11-19 14:28
  */

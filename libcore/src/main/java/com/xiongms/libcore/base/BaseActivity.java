@@ -10,13 +10,13 @@ import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.xiongms.libcore.mvp.IView;
 import com.xiongms.libcore.utils.ActivityUtil;
 import com.xiongms.libcore.utils.LoadingDialogUtil;
-import com.xiongms.statusbar.StatusBarHelper;
 
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasFragmentInjector;
@@ -43,6 +43,9 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView,
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if(!isMVPMode()) {
+            AndroidInjection.inject(this);
+        }
         super.onCreate(savedInstanceState);
         mContext = this;
         ActivityUtil.getInstance().addActivity(this);
@@ -61,6 +64,14 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView,
         initData(savedInstanceState);
     }
 
+    /**
+     * 是否采用MVP模式，BaseMVPActivity中返回true
+     *
+     * @return 为true时，不调用dagger2 inject注入
+     */
+    protected boolean isMVPMode() {
+        return false;
+    }
 
     @Override
     public AndroidInjector<Fragment> supportFragmentInjector() {
@@ -103,19 +114,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView,
         if (mLoadingDialogUtil != null) {
             mLoadingDialogUtil.destoryLoadingDialog();
             mLoadingDialogUtil = null;
-        }
-    }
-
-    /**
-     * 设置状态栏颜色
-     *
-     * @param color
-     */
-    public void setStatusBarColor(int color) {
-        try {
-            StatusBarHelper.setStatusBarColor(this, color);
-        } catch (Exception ex) {
-
         }
     }
 

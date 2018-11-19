@@ -30,6 +30,14 @@ public abstract class BaseMVPActivity<P extends IPresenter> extends BaseActivity
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * 返回为true时，父类不调用AndroidInjection.inject
+     * @return
+     */
+    @Override
+    protected boolean isMVPMode() {
+        return true;
+    }
 
     @Override
     protected void onDestroy() {
