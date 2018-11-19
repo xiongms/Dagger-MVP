@@ -9,7 +9,6 @@ import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.alibaba.android.arouter.launcher.ARouter;
-import com.baidu.mobstat.StatService;
 import com.google.gson.Gson;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -98,16 +97,6 @@ public abstract class BaseApplication extends Application implements HasActivity
         initLoadingHelper();
         registerActivityLifecycleCallbacks();
         ToastUtil.init(this);
-
-        initBaiduMTJ();
-    }
-
-    /**
-     * 初始化百度统计
-     */
-    private void initBaiduMTJ() {
-        StatService.setDebugOn(BuildConfig.DEBUG);
-        StatService.autoTrace(this, true, true);
     }
 
     public Environment getEnv() {
