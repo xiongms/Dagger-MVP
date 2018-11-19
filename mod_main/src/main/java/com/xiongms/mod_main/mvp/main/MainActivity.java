@@ -7,7 +7,8 @@ import android.widget.TextView;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.xiongms.libcore.config.RouterConfig;
-import com.xiongms.libcore.mvp.BaseActivity;
+import com.xiongms.libcore.base.BaseActivity;
+import com.xiongms.libcore.mvp.BaseMVPActivity;
 import com.xiongms.mod_main.R;
 import com.xiongms.mod_main.R2;
 
@@ -15,7 +16,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 @Route(path = RouterConfig.ROUTER_MAIN)
-public class MainActivity extends BaseActivity<MainPresenter> implements Contract.View {
+public class MainActivity extends BaseMVPActivity<MainPresenter> implements Contract.View {
 
     @BindView(R2.id.text_view)
     TextView mTextView;

@@ -1,6 +1,6 @@
 package com.xiongms.libcore.di.component;
 
-import com.xiongms.libcore.mvp.BaseActivity;
+import com.xiongms.libcore.base.BaseActivity;
 
 import dagger.Subcomponent;
 import dagger.android.AndroidInjectionModule;

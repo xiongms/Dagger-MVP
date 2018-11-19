@@ -1,4 +1,4 @@
-package com.xiongms.libcore.mvp;
+package com.xiongms.libcore.base;
 
 import android.app.Activity;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
+import com.xiongms.libcore.mvp.IView;
 import com.xiongms.libcore.utils.ActivityUtil;
 import com.xiongms.libcore.utils.LoadingDialogUtil;
 import com.xiongms.statusbar.StatusBarHelper;
@@ -16,10 +17,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.AndroidInjection;
 import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasActivityInjector;
 import dagger.android.HasFragmentInjector;
 import dagger.android.support.HasSupportFragmentInjector;
 
@@ -29,7 +28,7 @@ import dagger.android.support.HasSupportFragmentInjector;
  * @author xiongms
  * @time 2018-08-22 11:31
  */
-public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActivity implements IView, HasFragmentInjector, HasSupportFragmentInjector {
+public abstract class BaseActivity extends RxAppCompatActivity implements IView, HasFragmentInjector, HasSupportFragmentInjector {
 
     protected Context mContext;
 
@@ -40,18 +39,13 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
     @Inject
     DispatchingAndroidInjector<android.app.Fragment> frameworkFragmentInjector;
 
-    @Inject
-    protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
-
     private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
         super.onCreate(savedInstanceState);
         mContext = this;
         ActivityUtil.getInstance().addActivity(this);
-        mPresenter.onAttach(this);
         mLoadingDialogUtil = new LoadingDialogUtil(this);
         try {
             int layoutResID = initView(savedInstanceState);
@@ -105,8 +99,6 @@ public abstract class BaseActivity<P extends IPresenter> extends RxAppCompatActi
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
             mUnbinder.unbind();
         this.mUnbinder = null;
-        if (mPresenter != null) mPresenter.onDetach();//释放资源
-        this.mPresenter = null;
 
         if (mLoadingDialogUtil != null) {
             mLoadingDialogUtil.destoryLoadingDialog();

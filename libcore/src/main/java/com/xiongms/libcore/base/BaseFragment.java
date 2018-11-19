@@ -1,6 +1,5 @@
-package com.xiongms.libcore.mvp;
+package com.xiongms.libcore.base;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,38 +8,27 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.trello.rxlifecycle2.components.support.RxFragment;
-
-import javax.inject.Inject;
+import com.xiongms.libcore.mvp.IView;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.support.AndroidSupportInjection;
 
 /**
  * @author xiongms
  * @time 2018-08-17 15:55
  */
-public abstract class BaseFragment<P extends IPresenter> extends RxFragment implements IView {
+public abstract class BaseFragment extends RxFragment implements IView {
     protected final String TAG = this.getClass().getSimpleName();
 
     protected View mRootView;
 
-    @Inject
-    protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
     private Unbinder mUnbinder;
 
-    @Override
-    public void onAttach(Context context) {
-        AndroidSupportInjection.inject(this);
-        super.onAttach(context);
-    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //绑定View
-        mPresenter.onAttach(this);
 
         mRootView = initView(inflater, container, savedInstanceState);
 
@@ -82,13 +70,6 @@ public abstract class BaseFragment<P extends IPresenter> extends RxFragment impl
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
             mUnbinder.unbind();
         this.mUnbinder = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (mPresenter != null) mPresenter.onDetach();//释放资源
-        this.mPresenter = null;
     }
 
     @Override

@@ -9,10 +9,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.xiongms.libcore.mvp.BaseMVPActivity;
 import com.xiongms.login.R;
 import com.xiongms.login.R2;
 import com.xiongms.libcore.config.RouterConfig;
-import com.xiongms.libcore.mvp.BaseActivity;
+import com.xiongms.libcore.base.BaseActivity;
 import com.xiongms.libcore.utils.ActivityUtil;
 import com.xiongms.libcore.utils.StrUtil;
 
@@ -20,7 +21,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 @Route(path = RouterConfig.ROUTER_LOGIN)
-public class LoginActivity extends BaseActivity<LoginPresenter> implements Contract.View {
+public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Contract.View {
 
     @BindView(R2.id.ed_phone)
     EditText mEdPhone;
