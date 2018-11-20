@@ -49,7 +49,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView,
         super.onCreate(savedInstanceState);
         mContext = this;
         ActivityUtil.getInstance().addActivity(this);
-        mLoadingDialogUtil = new LoadingDialogUtil(this);
+        mLoadingDialogUtil = new LoadingDialogUtil();
         try {
             int layoutResID = initView(savedInstanceState);
             //如果initView返回0,框架则不会调用setContentView(),当然也不会 Bind ButterKnife

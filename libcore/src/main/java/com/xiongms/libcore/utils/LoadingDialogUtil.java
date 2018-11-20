@@ -3,10 +3,8 @@ package com.xiongms.libcore.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.AnimationDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,13 +19,9 @@ public class LoadingDialogUtil {
 
     private Dialog mLoadingDialog;
 
-    private Context mContext;
-
     private int mShowedCount = 0;
 
-    public LoadingDialogUtil(Context context) {
-        mContext = context;
-        mLoadingDialog = createLoadingDialog(context);
+    public LoadingDialogUtil() {
     }
 
     private Dialog createLoadingDialog(Context context) {
