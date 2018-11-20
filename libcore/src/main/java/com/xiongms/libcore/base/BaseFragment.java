@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.leakcanary.RefWatcher;
 import com.trello.rxlifecycle2.components.support.RxFragment;
+import com.xiongms.libcore.BaseApplication;
 import com.xiongms.libcore.mvp.IView;
 
 import butterknife.ButterKnife;
@@ -70,6 +72,13 @@ public abstract class BaseFragment extends RxFragment implements IView {
         if (mUnbinder != null && mUnbinder != Unbinder.EMPTY)
             mUnbinder.unbind();
         this.mUnbinder = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = BaseApplication.refWatcher;
+        if(refWatcher != null) refWatcher.watch(this);
     }
 
     @Override

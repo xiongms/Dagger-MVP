@@ -22,6 +22,8 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
 import com.xiongms.libcore.config.AppConfig;
@@ -62,6 +64,8 @@ public abstract class BaseApplication extends Application implements HasActivity
         return mApplication;
     }
 
+    public static RefWatcher refWatcher;
+
     /**
      * 添加多dex包支持
      *
@@ -90,6 +94,9 @@ public abstract class BaseApplication extends Application implements HasActivity
     public void init() {
         // 部分机型中兼容vector图片
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
+
+        refWatcher = LeakCanary.install(this);
 
         initLogger();
         initArouter();
