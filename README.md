@@ -2,7 +2,7 @@
 
 使用MVP、Dagger2.android、Rxjava2、Arouter快速搭建组件化应用架构，重点关注模块化、代码隔离、按需编译等问题
 
-# 划重点
+## 划重点
 - 使用MVP多关注代码结构、整体架构、可测试性、可维护性这四个方面
 - 通过Dagger2.android自动注入Presenter对象，减少大量的模板代码
 - 自动完成View层和Presenter层的绑定与解绑
