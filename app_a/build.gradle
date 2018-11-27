@@ -50,6 +50,8 @@ android {
             minifyEnabled true
             // 移除无用的resource文件
             shrinkResources true
+            //Zipalign优化
+            zipAlignEnabled true
             // 混淆配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
