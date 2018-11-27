@@ -9,6 +9,8 @@
 - 集成bugly的异常上报、热修复，基于微信tinker开源项目
 - 全局注入Error、Empty、Loading等场景
 - 使用Retrofit-url-manager动态管理接口baseUrl
+- 使用ARouter实现组件之间跳转
+- 通过EventBus完成各模块间的消息通信
 - 通用Proguard混淆脚本
 
 ![image.png](https://raw.githubusercontent.com/xiongms/Dagger-MVP/master/%E6%9E%B6%E6%9E%84%E5%9B%BE.jpg)
