@@ -7,12 +7,7 @@ import io.reactivex.Observable;
  * @time 2018-08-17 11:57
  */
 public class RxResultHelper {
-
-
-    /**
-     * @param observable
-     * @param <R>        处理请求进行转化,返回http结果
-     */
+    
     /**
      * 网络请求预处理
      * @param lifecycle 绑定生命周期对象
