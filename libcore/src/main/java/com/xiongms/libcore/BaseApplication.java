@@ -101,8 +101,6 @@ public abstract class BaseApplication extends Application implements HasActivity
         // bugly热修复SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
         Bugly.init(this, "84a33604f3", true);
-        // bugly 异常上报SDK初始化
-        CrashReport.initCrashReport(getApplicationContext(), "84a33604f3", true);
 
         // 部分机型中兼容vector图片
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);

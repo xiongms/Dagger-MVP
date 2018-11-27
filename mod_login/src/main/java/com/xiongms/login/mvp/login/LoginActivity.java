@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.xiongms.libcore.mvp.BaseMVPActivity;
 import com.xiongms.libcore.utils.ToastUtil;
 import com.xiongms.login.R;
@@ -90,7 +91,6 @@ public class LoginActivity extends BaseMVPActivity<LoginPresenter> implements Co
         int i1 = v.getId();
         if (i1 == R.id.btn_login) {
             mPresenter.login();
-            ToastUtil.show("这是bugly热修复补丁");
         } else if (i1 == R.id.btn_sendsms) {
             mPresenter.clickSendSMS();
         }
