@@ -18,6 +18,11 @@ android {
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+
         manifestPlaceholders = [FILE_PROVIDER_AUTHOR: build_config.file_provider,
         ]
 
@@ -38,13 +43,24 @@ android {
         multiDexEnabled true
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword '123456'
+            storeFile file('./keystore.jks')
+            storePassword '123456'
+        }
+    }
+
     buildTypes {
         debug {
+            signingConfig signingConfigs.config
             multiDexEnabled true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            signingConfig signingConfigs.config
             multiDexEnabled true
             // 是否混淆
             minifyEnabled true
@@ -73,3 +89,8 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.16"
     annotationProcessor "com.google.dagger:dagger-android-processor:2.16"
 }
+
+
+// 依赖插件脚本
+apply from: '../tinker-support.gradle'
+
