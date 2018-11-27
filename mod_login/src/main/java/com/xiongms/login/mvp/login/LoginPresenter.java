@@ -110,7 +110,7 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
 
         mRootView.setLoaddingDialogText("登录中...");
 
-        RxResultHelper.getHttpObservable(mRootView.getContext(), Observable.timer(2, TimeUnit.SECONDS))
+        RxResultHelper.getHttpObservable(mRootView, Observable.timer(2, TimeUnit.SECONDS))
                 .subscribe(new Observer<Long>() {
                     @Override
                     public void onSubscribe(Disposable d) {
@@ -149,7 +149,7 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("phone", phone);
 
-        RxResultHelper.getHttpObservable(mRootView.getContext(), userServiceApi.sendSMS(jsonObject))
+        RxResultHelper.getHttpObservable(mRootView, userServiceApi.sendSMS(jsonObject))
                 .subscribe(new RxResultSubscriber() {
                     @Override
                     public void start() {

@@ -37,6 +37,7 @@ import retrofit2.HttpException;
 
 /**
  * Retrofit请求相关的工具类
+ *
  * @author xiongms
  * @time 2018-08-28 17:11
  */
@@ -46,6 +47,7 @@ public class RxUtils {
 
     /**
      * 获取json格式requestbody
+     *
      * @param obj
      * @return
      */
@@ -61,21 +63,24 @@ public class RxUtils {
      *
      * @param lifecycle Activity
      */
-    public static  ObservableTransformer bindToLifecycle(Object lifecycle) {
-        if (lifecycle instanceof RxAppCompatActivity) {
-            return ((RxAppCompatActivity) lifecycle).bindUntilEvent(ActivityEvent.DESTROY);
-        } else if (lifecycle instanceof RxFragment) {
-            return ((RxFragment) lifecycle).bindUntilEvent(FragmentEvent.DESTROY_VIEW);
-        } else {
-            return new ObservableTransformer() {
-                @Override
-                public ObservableSource apply(Observable upstream) {
-                    return upstream;
-                }
-            };
-        }
-    }
+    public static ObservableTransformer bindToLifecycle(Object lifecycle) {
+        if (lifecycle != null) {
+            if (lifecycle instanceof RxAppCompatActivity) {
+                return ((RxAppCompatActivity) lifecycle).bindUntilEvent(ActivityEvent.DESTROY);
+            }
 
+            if (lifecycle instanceof RxFragment) {
+                return ((RxFragment) lifecycle).bindUntilEvent(FragmentEvent.DESTROY_VIEW);
+            }
+        }
+
+        return new ObservableTransformer() {
+            @Override
+            public ObservableSource apply(Observable upstream) {
+                return upstream;
+            }
+        };
+    }
 
 
     /**
@@ -96,6 +101,7 @@ public class RxUtils {
 
     /**
      * 检查返回值，如果token失效，抛出异常
+     *
      * @param <T>
      * @return
      */
@@ -128,6 +134,7 @@ public class RxUtils {
 
     /**
      * 处理token无效
+     *
      * @return
      */
     public static Function<Observable<Throwable>, ObservableSource<?>> handleRetryWhen() {
@@ -153,17 +160,17 @@ public class RxUtils {
         };
     }
 
-    public static <T> T getResultData(BaseBean<T> baseBean) throws ApiException{
+    public static <T> T getResultData(BaseBean<T> baseBean) throws ApiException {
         if (!baseBean.isSucc()) {
             throw new ApiException(baseBean.getMsg(), baseBean.getCode());
         }
         return baseBean.getData();
     }
 
-    public static ApiException getResultException(Throwable e){
+    public static ApiException getResultException(Throwable e) {
         ApiException ex;
-        if(e instanceof ApiException) {
-            return (ApiException)e;
+        if (e instanceof ApiException) {
+            return (ApiException) e;
         } else if (e instanceof HttpException) {             //HTTP错误
             HttpException httpExc = (HttpException) e;
             ex = new ApiException("网络错误", httpExc.code());
