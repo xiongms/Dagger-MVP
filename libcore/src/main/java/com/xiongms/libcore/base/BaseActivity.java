@@ -4,23 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
 import com.xiongms.libcore.mvp.IView;
 import com.xiongms.libcore.utils.ActivityUtil;
 import com.xiongms.libcore.utils.LoadingDialogUtil;
 
-
-import javax.inject.Inject;
-
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import dagger.android.AndroidInjection;
-import dagger.android.AndroidInjector;
-import dagger.android.DispatchingAndroidInjector;
-import dagger.android.HasFragmentInjector;
-import dagger.android.support.HasSupportFragmentInjector;
 
 /**
  * Activity的基类
@@ -28,24 +19,16 @@ import dagger.android.support.HasSupportFragmentInjector;
  * @author xiongms
  * @time 2018-08-22 11:31
  */
-public abstract class BaseActivity extends RxAppCompatActivity implements IView, HasFragmentInjector, HasSupportFragmentInjector {
+public abstract class BaseActivity extends RxAppCompatActivity implements IView {
 
     protected Context mContext;
 
     private LoadingDialogUtil mLoadingDialogUtil;
 
-    @Inject
-    DispatchingAndroidInjector<Fragment> supportFragmentInjector;
-    @Inject
-    DispatchingAndroidInjector<android.app.Fragment> frameworkFragmentInjector;
-
     private Unbinder mUnbinder;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if(!isMVPMode()) {
-            AndroidInjection.inject(this);
-        }
         super.onCreate(savedInstanceState);
         mContext = this;
         ActivityUtil.getInstance().addActivity(this);
@@ -64,24 +47,6 @@ public abstract class BaseActivity extends RxAppCompatActivity implements IView,
         initData(savedInstanceState);
     }
 
-    /**
-     * 是否采用MVP模式，BaseMVPActivity中返回true
-     *
-     * @return 为true时，不调用dagger2 inject注入
-     */
-    protected boolean isMVPMode() {
-        return false;
-    }
-
-    @Override
-    public AndroidInjector<Fragment> supportFragmentInjector() {
-        return supportFragmentInjector;
-    }
-
-    @Override
-    public AndroidInjector<android.app.Fragment> fragmentInjector() {
-        return frameworkFragmentInjector;
-    }
 
     /**
      * 初始化 布局资源文件ID, 如果 {@link #initView(Bundle)} 返回 0, 框架则不会调用 {@link Activity#setContentView(int)}
