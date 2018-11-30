@@ -16,7 +16,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,7 +28,6 @@ import java.util.TimerTask;
  */
 public class DatePickerView extends View {
 
-    private Context context;
     /**
      * 新增字段 控制是否首尾相接循环显示 默认为循环显示
      */
@@ -69,27 +70,11 @@ public class DatePickerView extends View {
     private Timer timer;
     private MyTimerTask mTask;
 
-    private Handler updateHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            if (Math.abs(mMoveLen) < SPEED) {
-                mMoveLen = 0;
-                if (mTask != null) {
-                    mTask.cancel();
-                    mTask = null;
-                    performSelect();
-                }
-            } else {
-                // 这里mMoveLen / Math.abs(mMoveLen)是为了保有mMoveLen的正负号，以实现上滚或下滚
-                mMoveLen = mMoveLen - mMoveLen / Math.abs(mMoveLen) * SPEED;
-            }
-            invalidate();
-        }
-    };
+    private Handler updateHandler;
+
 
     public DatePickerView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
         init();
     }
 
@@ -174,6 +159,7 @@ public class DatePickerView extends View {
     }
 
     private void init() {
+        updateHandler = new UpdateHandler(this);
         timer = new Timer();
         mDataList = new ArrayList<>();
         //第一个paint
@@ -399,19 +385,6 @@ public class DatePickerView extends View {
         timer.schedule(mTask, 0, 10);
     }
 
-    class MyTimerTask extends TimerTask {
-        Handler handler;
-
-        public MyTimerTask(Handler handler) {
-            this.handler = handler;
-        }
-
-        @Override
-        public void run() {
-            handler.sendMessage(handler.obtainMessage());
-        }
-    }
-
     public interface onSelectListener {
         void onSelect(String text);
     }
@@ -434,4 +407,47 @@ public class DatePickerView extends View {
         loop = isLoop;
     }
 
+
+    private static class MyTimerTask extends TimerTask {
+        Handler handler;
+
+        public MyTimerTask(Handler handler) {
+            this.handler = handler;
+        }
+
+        @Override
+        public void run() {
+            handler.sendMessage(handler.obtainMessage());
+        }
+    }
+
+    private static class UpdateHandler extends Handler {
+
+        WeakReference<DatePickerView> viewWeakReference;
+
+        public UpdateHandler(DatePickerView datePickerView) {
+            viewWeakReference = new WeakReference<>(datePickerView);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            DatePickerView datePickerView = viewWeakReference.get();
+            if(datePickerView == null) {
+                return;
+            }
+
+            if (Math.abs(datePickerView.mMoveLen) < SPEED) {
+                datePickerView.mMoveLen = 0;
+                if (datePickerView.mTask != null) {
+                    datePickerView.mTask.cancel();
+                    datePickerView.mTask = null;
+                    datePickerView.performSelect();
+                }
+            } else {
+                // 这里mMoveLen / Math.abs(mMoveLen)是为了保有mMoveLen的正负号，以实现上滚或下滚
+                datePickerView.mMoveLen = datePickerView.mMoveLen - datePickerView.mMoveLen / Math.abs(datePickerView.mMoveLen) * SPEED;
+            }
+            datePickerView.invalidate();
+        }
+    }
 }
