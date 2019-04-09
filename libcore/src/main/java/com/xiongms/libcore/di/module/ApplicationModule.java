@@ -38,11 +38,9 @@ public class ApplicationModule {
     @Provides
     @Singleton
     Environment provideEnvironment(
-            final @NonNull Gson gson,
             final AppPreferencesHelper appPreferencesHelper,
             final Retrofit rqbRetrofit) {
         return Environment.builder()
-                .gson(gson)
                 .rqbRetrofit(rqbRetrofit)
                 .appPreferencesHelper(appPreferencesHelper)
                 .build();

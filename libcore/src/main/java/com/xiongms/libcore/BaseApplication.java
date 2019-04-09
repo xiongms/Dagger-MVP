@@ -30,6 +30,7 @@ import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
 import com.xiongms.libcore.config.AppConfig;
 import com.xiongms.libcore.env.Environment;
+import com.xiongms.libcore.utils.JsonUtil;
 import com.xiongms.libcore.utils.LoadViewHelper;
 import com.xiongms.libcore.utils.ToastUtil;
 
@@ -117,7 +118,7 @@ public abstract class BaseApplication extends Application implements HasActivity
     }
 
     public Gson getGson() {
-        return mEnv.gson();
+        return JsonUtil.gson;
     }
 
     public User getUser() {

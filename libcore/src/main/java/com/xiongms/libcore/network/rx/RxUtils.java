@@ -52,8 +52,7 @@ public class RxUtils {
      * @return
      */
     public static RequestBody createJSONRequestBody(Object obj) {
-        Gson gson = BaseApplication.getInstance().getEnv().gson();
-        String json = gson.toJson(obj);
+        String json = JsonUtil.toJson(obj);
 
         return RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"), json);
     }

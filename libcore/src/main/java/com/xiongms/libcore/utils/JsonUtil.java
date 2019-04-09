@@ -39,10 +39,10 @@ import com.google.gson.stream.JsonWriter;
  */
 public class JsonUtil {
 
-    private static GsonBuilder gsonBuilder = new GsonBuilder()
+    public static Gson gson = new GsonBuilder()
             .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
             .setDateFormat("yyyy-MM-dd HH:mm:ss")
-            .serializeNulls();
+            .serializeNulls().create();
 
     /**
      * 描述：将对象转化为json.
@@ -52,7 +52,6 @@ public class JsonUtil {
     public static String toJson(Object src) {
         String json = "";
         try {
-            Gson gson = gsonBuilder.create();
             json = gson.toJson(src);
         } catch (Exception e) {
             e.printStackTrace();
@@ -63,7 +62,6 @@ public class JsonUtil {
     public static JsonElement toJsonElement(Object src) {
         JsonElement json = null;
         try {
-            Gson gson = gsonBuilder.create();
             json = gson.toJsonTree(src);
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +79,6 @@ public class JsonUtil {
         String json = null;
         try {
             if(list != null) {
-                Gson gson = gsonBuilder.create();
                 json = gson.toJson(list);
             }
         } catch (Exception e) {
@@ -104,7 +101,6 @@ public class JsonUtil {
         }
         try {
             Type type = typeToken.getType();
-            Gson gson = gsonBuilder.create();
             return gson.fromJson(json, type);
         } catch (Exception e) {
             e.printStackTrace();
@@ -118,7 +114,6 @@ public class JsonUtil {
         }
         try {
             Type type = typeToken.getType();
-            Gson gson = gsonBuilder.create();
             return gson.fromJson(json, type);
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,7 +131,6 @@ public class JsonUtil {
     public static <T> T fromJson(String json, Class<T> clazz) {
         Object obj = null;
         try {
-            Gson gson = gsonBuilder.create();
             obj = gson.fromJson(json, clazz);
         } catch (Exception e) {
             e.printStackTrace();
@@ -181,10 +175,6 @@ public class JsonUtil {
             this.name = name;
         }
 
-    }
-
-    public static void setGsonBuilderDateFormat(String format) {
-        gsonBuilder.setDateFormat(format);
     }
 
     public static class NullStringToEmptyAdapterFactory<T> implements TypeAdapterFactory {

@@ -37,9 +37,8 @@ public class AppPreferencesHelper {
 
     @Inject
     AppPreferencesHelper(@ApplicationContext Context context,
-                         @PreferenceInfo String prefFileName,
-                        final @NonNull Gson gson) {
-        mGson = gson;
+                         @PreferenceInfo String prefFileName) {
+        mGson = JsonUtil.gson;
         mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
     }
 

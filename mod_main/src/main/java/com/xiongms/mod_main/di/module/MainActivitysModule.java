@@ -1,7 +1,6 @@
 package com.xiongms.mod_main.di.module;
 
 import com.xiongms.libcore.di.component.BaseActivityComponent;
-import com.xiongms.libcore.di.module.DefaultActivityModule;
 import com.xiongms.libcore.di.scope.ActivityScope;
 import com.xiongms.mod_main.mvp.main.MainActivity;
 import com.xiongms.mod_main.mvp.main.MainModule;
@@ -18,6 +17,6 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainActivitysModule {
 
     @ActivityScope
-    @ContributesAndroidInjector(modules = {DefaultActivityModule.class, MainModule.class})
+    @ContributesAndroidInjector(modules = {MainModule.class})
     abstract MainActivity contributeLoginActivityInjector();
 }

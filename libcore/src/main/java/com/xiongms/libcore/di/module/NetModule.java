@@ -8,6 +8,7 @@ import com.xiongms.libcore.di.qualifiers.DefaultBaseUrl;
 import com.xiongms.libcore.network.GlobalHttpHandler;
 import com.xiongms.libcore.network.interceptor.LoggingInterceptor;
 import com.xiongms.libcore.network.interceptor.RetryIntercept;
+import com.xiongms.libcore.utils.JsonUtil;
 
 
 import java.io.IOException;
@@ -44,13 +45,6 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 public class NetModule {
 
     private static final String TAG = NetModule.class.getSimpleName();
-
-    @Singleton
-    @Provides
-    Gson providesGson() {
-        return new GsonBuilder()
-                .create();
-    }
 
     @Singleton
     @Provides
@@ -165,13 +159,13 @@ public class NetModule {
 
     @Singleton
     @Provides
-    Retrofit providesRQBRetrofit(Retrofit.Builder retrofitBuilder, @DefaultBaseUrl String defaultBaseUrl, OkHttpClient okHttpClient, Gson gson) {
+    Retrofit providesRQBRetrofit(Retrofit.Builder retrofitBuilder, @DefaultBaseUrl String defaultBaseUrl, OkHttpClient okHttpClient) {
         return retrofitBuilder
                 .client(okHttpClient)
                 .baseUrl(defaultBaseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(JsonUtil.gson))
                 .build();
     }
 }
