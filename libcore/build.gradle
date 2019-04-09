@@ -29,6 +29,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dataBinding {
+        enabled true
+    }
 }
 
 dependencies {
@@ -139,6 +143,19 @@ dependencies {
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
     api 'com.tencent.tinker:tinker-android-lib:1.9.9'
     api 'com.tencent.bugly:nativecrashreport:3.3.1' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+
+    //Google AAC
+    api "android.arch.lifecycle:viewmodel:1.1.1"
+    api "android.arch.lifecycle:livedata:1.1.1"
+    api "android.arch.lifecycle:extensions:1.1.1"
+
+    //recyclerview的databinding套装
+    api("me.tatarka.bindingcollectionadapter2:bindingcollectionadapter:2.3.0-beta3") {
+        exclude group: 'com.android.support'
+    }
+    api("me.tatarka.bindingcollectionadapter2:bindingcollectionadapter-recyclerview:2.3.0-beta3") {
+        exclude group: 'com.android.support'
+    }
 
     // apt
     annotationProcessor 'com.github.frankiesardo:auto-parcel-processor:0.3.1'

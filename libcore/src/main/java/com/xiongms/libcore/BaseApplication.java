@@ -26,16 +26,12 @@ import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.xiongms.libcore.bean.Store;
 import com.xiongms.libcore.bean.User;
 import com.xiongms.libcore.config.AppConfig;
-import com.xiongms.libcore.enums.EventBusTypeEnum;
 import com.xiongms.libcore.env.Environment;
 import com.xiongms.libcore.utils.LoadViewHelper;
 import com.xiongms.libcore.utils.ToastUtil;
-
-import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
@@ -120,10 +116,6 @@ public abstract class BaseApplication extends Application implements HasActivity
         return mEnv;
     }
 
-    public Store getStore() {
-        return mEnv.appPreferencesHelper().getStore();
-    }
-
     public Gson getGson() {
         return mEnv.gson();
     }
@@ -196,7 +188,6 @@ public abstract class BaseApplication extends Application implements HasActivity
 
                 if (refCount == 0) {
                     mIsBackToForeground = true;
-                    EventBus.getDefault().post(EventBusTypeEnum.REFRESH_STORE_DATA);
                 } else {
                     mIsBackToForeground = false;
                 }

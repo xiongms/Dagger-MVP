@@ -1,9 +1,7 @@
-if (build_module == build_module_login) {
-    apply plugin: 'com.android.application'
-} else {
+
     apply plugin: 'com.android.library'
     apply plugin: 'com.jakewharton.butterknife'
-}
+
 
 android {
     resourcePrefix 'main_'
@@ -16,10 +14,6 @@ android {
         targetSdkVersion build_config.target_sdk
         versionCode build_config.version_code
         versionName build_config.version_name
-
-        if (build_module == build_module_login) {
-            applicationId "com.xiongms.app_report"
-        }
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -44,6 +38,10 @@ android {
         // Or, if you prefer, you can continue to check for errors in release builds,
         // but continue the build even when errors are found:
         abortOnError false
+    }
+
+    dataBinding {
+        enabled true
     }
 }
 

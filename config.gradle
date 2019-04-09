@@ -1,19 +1,7 @@
-ext.build_module_libcore = 0x01
-ext.build_module_app = 0x02
-ext.build_module_app_report = 0x03
-ext.build_module_app_cjt = 0x04
-ext.build_module_login = 0x05
-ext.build_module_other = 0x06
 
-ext.build_module = 0x02
 
 
 def build_config = [:]
-build_config.classpath_gradle = "com.android.tools.build:gradle:3.1.3"
-build_config.classpath_kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.41"
-build_config.classpath_arouter = "com.alibaba:arouter-register:1.0.0"
-build_config.classpath_thinker = "com.tencent.tinker:tinker-patch-gradle-plugin:1.9.1"
-build_config.classpath_butterknife = "com.jakewharton:butterknife-gradle-plugin:8.4.0"
 build_config.app_dd_id = "cn.xiongms.app1"
 build_config.file_provider = "cn.xiongms.app1.fileprovider"
 build_config.min_sdk = 16

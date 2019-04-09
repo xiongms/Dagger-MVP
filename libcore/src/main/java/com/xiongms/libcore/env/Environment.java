@@ -10,11 +10,6 @@ import retrofit2.Retrofit;
 
 @AutoParcel
 public abstract class Environment implements Parcelable {
-    public abstract int networkOperator();
-
-    public abstract String packageName();
-
-    public abstract String appVersion();
 
     public abstract Gson gson();
 
@@ -24,11 +19,7 @@ public abstract class Environment implements Parcelable {
 
     @AutoParcel.Builder
     public abstract static class Builder {
-        public abstract Builder networkOperator(int __);
 
-        public abstract Builder packageName(String __);
-
-        public abstract Builder appVersion(String __);
 
         public abstract Builder gson(Gson __);
 

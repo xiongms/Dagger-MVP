@@ -40,14 +40,8 @@ public class ApplicationModule {
     Environment provideEnvironment(
             final @NonNull Gson gson,
             final AppPreferencesHelper appPreferencesHelper,
-            final Retrofit rqbRetrofit,
-            final @NetworkType int networkOperator,
-            final @PackageName String packageName,
-            final @AppVersion String appVersion) {
+            final Retrofit rqbRetrofit) {
         return Environment.builder()
-                .networkOperator(networkOperator)
-                .packageName(packageName)
-                .appVersion(appVersion)
                 .gson(gson)
                 .rqbRetrofit(rqbRetrofit)
                 .appPreferencesHelper(appPreferencesHelper)

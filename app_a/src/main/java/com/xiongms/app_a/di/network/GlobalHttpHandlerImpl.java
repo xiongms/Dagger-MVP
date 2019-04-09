@@ -67,8 +67,6 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
             modifiedUrlBuilder.addQueryParameter("sign", "");
             modifiedUrlBuilder.addQueryParameter("chn", "");
             modifiedUrlBuilder.addQueryParameter("ov", Build.MODEL + Build.VERSION.RELEASE);
-            modifiedUrlBuilder.addQueryParameter("av", BaseApplication.getInstance().getEnv().appVersion());
-            modifiedUrlBuilder.addQueryParameter("nt", String.valueOf(BaseApplication.getInstance().getEnv().networkOperator()));
 
             modifiedUrlBuilder.addQueryParameter("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
             modifiedUrlBuilder.addQueryParameter("shopid", String.valueOf(BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId()));
@@ -111,8 +109,6 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
                 jsonObject.put("sign", "");
                 jsonObject.put("chn", "");
                 jsonObject.put("ov", Build.MODEL + Build.VERSION.RELEASE);
-                jsonObject.put("av", BaseApplication.getInstance().getEnv().appVersion());
-                jsonObject.put("nt", String.valueOf(BaseApplication.getInstance().getEnv().networkOperator()));
 
                 jsonObject.put("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
                 jsonObject.put("shopid", BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId());

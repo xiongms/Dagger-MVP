@@ -7,9 +7,7 @@ android {
 
     defaultConfig {
 
-        if (build_module == build_module_app) {
             applicationId build_config.app_dd_id
-        }
 
         minSdkVersion       build_config.min_sdk
         targetSdkVersion    build_config.target_sdk
@@ -20,7 +18,7 @@ android {
 
         ndk {
             //设置支持的SO库架构
-            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters 'armeabi', 'x86'//, 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
 
         manifestPlaceholders = [FILE_PROVIDER_AUTHOR: build_config.file_provider,
@@ -71,6 +69,10 @@ android {
             // 混淆配置文件
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dataBinding {
+        enabled true
     }
 }
 
