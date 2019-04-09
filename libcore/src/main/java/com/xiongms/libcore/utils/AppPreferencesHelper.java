@@ -2,109 +2,80 @@ package com.xiongms.libcore.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.NonNull;
-
-import com.google.gson.Gson;
-import com.xiongms.libcore.bean.Store;
-import com.xiongms.libcore.bean.User;
-import com.xiongms.libcore.di.qualifiers.ApplicationContext;
-import com.xiongms.libcore.di.qualifiers.PreferenceInfo;
-
-import javax.inject.Inject;
+import android.text.TextUtils;
 
 /**
- * 
  * @author xiongms
- * @time 2018-08-16 16:55
+ * @time 2018-11-14 16:55
  */
 public class AppPreferencesHelper {
 
+    private static AppPreferencesHelper appPreferencesHelper = null;
 
-    public final static String KEY_SP_USER_PHONE = "key_sp_user_phone";
+    public static AppPreferencesHelper getInstance(Context context) {
+        if (appPreferencesHelper == null) {
+            appPreferencesHelper = new AppPreferencesHelper(context);
+        }
 
-    public final static String KEY_SP_USER_INFO = "key_sp_user_info";
+        return appPreferencesHelper;
+    }
 
-    public final static String KEY_SP_STORE_INFO = "key_sp_store_info";
+    public final static String KEY_SP_TOKEN = "key_sp_token";
 
-    public final static String KEY_SP_PRE_STORE_ID = "key_sp_pre_store_id";
-
-    public final static String KEY_SP_PRE_CHECK_UPDATE_DATE = "key_sp_pre_check_update_date";
-
+    private final String prefFileName = "App_Preferences";
 
     private final SharedPreferences mPrefs;
 
-    private final Gson mGson;
-
-    @Inject
-    AppPreferencesHelper(@ApplicationContext Context context,
-                         @PreferenceInfo String prefFileName) {
-        mGson = JsonUtil.gson;
+    private AppPreferencesHelper(Context context) {
         mPrefs = context.getSharedPreferences(prefFileName, Context.MODE_PRIVATE);
     }
 
-    public void setUserPhone(String phone) {
-        mPrefs.edit().putString(KEY_SP_USER_PHONE, phone).apply();
+
+    public void saveModel(Object object) {
+        saveModel("", object);
     }
 
-    public String getUserPhone() {
-        return mPrefs.getString(KEY_SP_USER_PHONE, "");
-    }
-
-    public void setUser(User userInfo) {
-        if(userInfo != null) {
-            setUserPhone(userInfo.getPhone());
+    public synchronized void saveModel(String tag, Object object) {
+        if (object != null) {
+            String sInfo = JsonUtil.toJson(object);
+            if (!TextUtils.isEmpty(sInfo)) {
+                mPrefs.edit().putString(tag + object.getClass().getSimpleName(), sInfo).apply();
+            }
         }
-        String sUserInfo = mGson.toJson(userInfo);
-        mPrefs.edit().putString(KEY_SP_USER_INFO, sUserInfo).apply();
     }
 
-    public User getUser() {
-        String sUser = mPrefs.getString(KEY_SP_USER_INFO, "");
-        User user = mGson.fromJson(sUser, User.class);
-        if(user == null)
-            user = new User();
-        return user;
+    public synchronized <T> T getModel(Class<T> classz) {
+        return getModel("", classz);
     }
 
-    public void setStore(Store store) {
-        String sStore = mGson.toJson(store);
-        mPrefs.edit().putString(KEY_SP_STORE_INFO, sStore).apply();
+    public synchronized <T> T getModel(String tag, Class<T> classz) {
+        String sInfo = mPrefs.getString(tag + classz.getSimpleName(), "");
+        if (!TextUtils.isEmpty(sInfo)) {
+            return JsonUtil.fromJson(sInfo, classz);
+        }
+        return null;
     }
 
-    public Store getStore() {
-        String sStore = mPrefs.getString(KEY_SP_STORE_INFO, "");
-        Store store = mGson.fromJson(sStore, Store.class);
-        if(store == null)
-            store = new Store();
-        return store;
+    public synchronized void removeModel(Class classz) {
+        removeModel("", classz);
+    }
+
+    public synchronized void removeModel(String tag, Class classz) {
+        mPrefs.edit().putString(tag + classz.getSimpleName(), null).apply();
+    }
+
+    public void setToken(String token) {
+        if (!TextUtils.isEmpty(token)) {
+            mPrefs.edit().putString(KEY_SP_TOKEN, token).apply();
+        }
     }
 
     public String getToken() {
-        User user = getUser();
-        return user.getTkn();
-    }
-
-    public int getStoreId() {
-        Store store = getStore();
-        return store.getStoreId();
-    }
-
-    public void setPreStoreId(int id) {
-        mPrefs.edit().putInt(KEY_SP_PRE_STORE_ID, id).apply();
-    }
-
-    public int getPreStoreId() {
-        return mPrefs.getInt(KEY_SP_PRE_STORE_ID, -1);
-    }
-
-
-
-    public void setCheckUpdateDate(String date) {
-        mPrefs.edit().putString(KEY_SP_PRE_CHECK_UPDATE_DATE, date).apply();
-    }
-
-    public String getCheckUpdateDate() {
-        return mPrefs.getString(KEY_SP_PRE_CHECK_UPDATE_DATE, "");
+        String token = mPrefs.getString(KEY_SP_TOKEN, "");
+        if (!TextUtils.isEmpty(token)) {
+            return token;
+        }
+        return "";
     }
 
     public void removeAll() {

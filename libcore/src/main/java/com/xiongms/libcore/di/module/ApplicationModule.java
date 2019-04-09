@@ -38,11 +38,9 @@ public class ApplicationModule {
     @Provides
     @Singleton
     Environment provideEnvironment(
-            final AppPreferencesHelper appPreferencesHelper,
             final Retrofit rqbRetrofit) {
         return Environment.builder()
                 .rqbRetrofit(rqbRetrofit)
-                .appPreferencesHelper(appPreferencesHelper)
                 .build();
     }
 

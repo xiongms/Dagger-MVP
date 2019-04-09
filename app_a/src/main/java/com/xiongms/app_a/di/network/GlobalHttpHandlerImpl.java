@@ -68,12 +68,6 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
             modifiedUrlBuilder.addQueryParameter("chn", "");
             modifiedUrlBuilder.addQueryParameter("ov", Build.MODEL + Build.VERSION.RELEASE);
 
-            modifiedUrlBuilder.addQueryParameter("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
-            modifiedUrlBuilder.addQueryParameter("shopid", String.valueOf(BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId()));
-
-            if (StrUtil.isEmpty(modifiedUrlBuilder.build().queryParameter("phone"))) {
-                modifiedUrlBuilder.addQueryParameter("phone", BaseApplication.getInstance().getEnv().appPreferencesHelper().getUserPhone());
-            }
             return requestBuilder.url(modifiedUrlBuilder.build()).build();
         } else if (request.body() instanceof FormBody) {
             // 全局修改表单post参数
@@ -109,19 +103,6 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
                 jsonObject.put("sign", "");
                 jsonObject.put("chn", "");
                 jsonObject.put("ov", Build.MODEL + Build.VERSION.RELEASE);
-
-                jsonObject.put("tkn", BaseApplication.getInstance().getEnv().appPreferencesHelper().getToken());
-                jsonObject.put("shopid", BaseApplication.getInstance().getEnv().appPreferencesHelper().getStoreId());
-
-                boolean hadPhone = false;
-                try {
-                    hadPhone = !StrUtil.isEmpty(jsonObject.getString("phone"));
-                } catch (Exception ex) {
-                }
-                if (!hadPhone) {
-                    String phone = BaseApplication.getInstance().getEnv().appPreferencesHelper().getUserPhone();
-                    jsonObject.put("phone", phone);
-                }
 
                 newJsonBody = jsonObject.toString();
             } catch (JSONException e) {

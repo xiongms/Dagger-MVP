@@ -121,10 +121,6 @@ public abstract class BaseApplication extends Application implements HasActivity
         return JsonUtil.gson;
     }
 
-    public User getUser() {
-        return mEnv.appPreferencesHelper().getUser();
-    }
-
     public Context getContext() {
         return mApplication.getApplicationContext();
     }

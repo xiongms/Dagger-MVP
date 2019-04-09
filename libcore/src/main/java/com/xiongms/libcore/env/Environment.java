@@ -13,14 +13,10 @@ public abstract class Environment implements Parcelable {
 
     public abstract Retrofit rqbRetrofit();
 
-    public abstract AppPreferencesHelper appPreferencesHelper();
-
     @AutoParcel.Builder
     public abstract static class Builder {
 
         public abstract Builder rqbRetrofit(Retrofit __);
-
-        public abstract Builder appPreferencesHelper(AppPreferencesHelper __);
 
         public abstract Environment build();
     }

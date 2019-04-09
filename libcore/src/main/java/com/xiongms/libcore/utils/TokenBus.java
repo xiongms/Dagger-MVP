@@ -37,10 +37,6 @@ public class TokenBus {
 
     }
 
-    public String getToken() {
-        return BaseApplication.getInstance().getUser().getTkn();
-    }
-
     public Observable<User> getNetTokenLocked() {
         if (mRefreshing.compareAndSet(false, true)) {
             Log.d(TAG, "请求新的Token");

@@ -2,6 +2,7 @@ package com.xiongms.login.mvp.login;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.JsonObject;
+import com.xiongms.libcore.BaseApplication;
 import com.xiongms.libcore.utils.AppPreferencesHelper;
 import com.xiongms.login.data.UserServiceApi;
 import com.xiongms.libcore.bean.BaseBean;
@@ -35,7 +36,6 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
     private Store mCurrentStoresBean = null;
     private User mUser;
 
-    private String orgMobile;
 
     private static final int MAX_COUNT_TIME = 60;
 
@@ -45,22 +45,20 @@ public class LoginPresenter extends BasePresenter<Contract.View> implements Cont
 
     private Disposable mDisposable;
 
-    @Inject
     public AppPreferencesHelper mAppPreferencesHelper;
 
     @Inject
     public LoginPresenter(Retrofit retrofit) {
         userServiceApi = retrofit.create(UserServiceApi.class);
+        mAppPreferencesHelper = AppPreferencesHelper.getInstance(BaseApplication.getInstance());
     }
 
     @Override
     public void initData() {
-        orgMobile = mAppPreferencesHelper.getUser().getPhone();
 
         // 进入登录页面后，删除保存的所有sharedpreference信息
         mAppPreferencesHelper.removeAll();
 
-        mRootView.setPhone(orgMobile);
 
         mObservableCountTime = Observable.interval(1, TimeUnit.SECONDS, Schedulers.io()).take(MAX_COUNT_TIME) //将递增数字替换成递减的倒计时数字
                 .map(new Function<Long, Long>() {
